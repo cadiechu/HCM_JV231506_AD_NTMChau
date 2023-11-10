@@ -1,5 +1,7 @@
-create database test;
-use test;
+create
+    database test;
+use
+    test;
 create table teacher
 (
     id       int primary key auto_increment,
@@ -55,14 +57,14 @@ create table mark
     foreign key (subject_id) references subject (id)
 );
 
-# 1. Bảng teacher ít nhất là 5 bản ghi dữ liệu phù hợp
+#1. Bảng teacher ít nhất là 5 bản ghi dữ liệu phù hợp
 insert into teacher (name, phone, email, birthday)
 values ('Ho Xuan Hung', '0936455455', 'hungx@gmail.com', '1995-01-01'),
        ('Nguyen Minh Hung', '0899666555', 'hungm@gmail.com', '1990-02-01'),
        ('Tran Hong Son', '01221554584', 'son@gmail.com', '1998-01-27'),
        ('Cao Cuong', '0521548484', 'cuong@gmail.com', '1998-05-11'),
        ('Trinh Phuc Phuc', '0784512227', 'phuc@gmail.com', '1987-01-30');
-# 2. Bảng class_room ít nhất là 5 bản ghi dữ liệu phù hợp
+#2. Bảng class_room ít nhất là 5 bản ghi dữ liệu phù hợp
 insert into class_room (name, total_student, start_date, end_date)
 values ('Java Fullstack', 15, '2023-06-15', '2023-12-15'),
        ('Java Script', 30, '2023-05-15', '2023-11-15'),
@@ -70,7 +72,7 @@ values ('Java Fullstack', 15, '2023-06-15', '2023-12-15'),
        ('C/C++', 15, '2022-07-15', '2023-1-15'),
        ('SQL', 13, '2023-02-15', '2023-8-15');
 
-# 3. Bảng student Ít nhất 15 bản ghi dữ liệu phù hợp
+#3. Bảng student Ít nhất 15 bản ghi dữ liệu phù hợp
 insert into student (name, email, phone, gender, class_room_id, birthday)
 values ('NTM Chu', 'chu@yahoo.com', '0345451538', 1, 1, '2000-01-26'),
        ('Pink Son', 'son@yahoo.com', '0645656565', 2, 1, '2001-01-27'),
@@ -87,14 +89,14 @@ values ('NTM Chu', 'chu@yahoo.com', '0345451538', 1, 1, '2000-01-26'),
        ('Kamado Nezuko', 'Nezuko@yahoo.com', '0154848484', 1, 2, '1999-7-2'),
        ('Kanroji Mitsuri', 'Mitsuri@yahoo.com', '01268494848', 1, 2, '1999-10-26');
 
-# 4. Bảng subject ít nhất 3 bản ghi dữ liệu phù hợp
+#4. Bảng subject ít nhất 3 bản ghi dữ liệu phù hợp
 insert into subject (name)
 values ('HTML/CSS'),
        ('React'),
        ('Java Core'),
        ('MySQL');
 
-# 5. Bảng mark ít nhất 20 bản ghi dữ liệu phù hợ
+#5. Bảng mark ít nhất 20 bản ghi dữ liệu phù hợ
 insert into mark (student_id, subject_id, score)
 VALUES (1, 1, 10),
        (2, 1, 9),
@@ -111,7 +113,7 @@ VALUES (1, 1, 10),
        (13, 4, 9),
        (14, 3, 8),
        (14, 2, 8);
-## Nhap thong itn bang teacher_class
+##Nhap thong itn bang teacher_class
 insert into teacher_class
 values (1, 1, '2023-06-15', '2023-12-15', null, null),
        (2, 4, '2023-01-15', '2023-10-15', null, null),
@@ -119,7 +121,7 @@ values (1, 1, '2023-06-15', '2023-12-15', null, null),
        (4, 2, '2023-07-15', '2023-2-20', null, null),
        (5, 5, '2023-06-15', '2023-12-25', null, null);
 
-# II. Thực hiện các truy vấn dữ liệu.(60đ)
+#II. Thực hiện các truy vấn dữ liệu.(60đ)
 # 1. Lấy ra danh sách Student có sắp xếp tăng dần theo Name gồm các cột sau: Id, Name, Email, Phone, Address, Gender, BirthDay, Age (5đ)
 select Id,
        Name,
@@ -127,33 +129,34 @@ select Id,
        Phone,
        Gender,
        BirthDay,
-    YEAR
-    (now()) - year(birthday) as age
+       YEAR
+           (now()) - year(birthday) as age
 from student
 order by name asc;
 
-# 2. Lấy ra danh sách Teacher gồm: Id, Name, Phone, Email, BirthDay, Age, TotalCLass (5đ)
+#2. Lấy ra danh sách Teacher gồm: Id, Name, Phone, Email, BirthDay, Age, TotalCLass (5đ)
 select t.Id,
        t.Name,
        t.Phone,
        t.Email,
        t.BirthDay,
-    year(now()) - year(birthday) as Age,
-    count(tc.class_room_id)      as TotalCLass
+       year(now()) - year(birthday) as Age,
+       count(tc.class_room_id)      as TotalCLass
 from teacher t
-    join teacher_class tc on t.id = tc.teacher_id
+         join teacher_class tc
+              on t.id = tc.teacher_id
 group by t.id;
 
-# 3. Truy vấn danh sách class_room gồm: Id, Name, TotalStudent, StartDate, EndDate khai giảng năm 2023 (5đ)
+#3. Truy vấn danh sách class_room gồm: Id, Name, TotalStudent, StartDate, EndDate khai giảng năm 2023 (5đ)
 select Id, Name, total_student, start_date, end_date
 from class_room
 where YEAR(start_date) = 2023;
 
-# 4. Cập nhật cột ToalStudent trong bảng class_room = Tổng số Student của mỗi class_room theo Id của class_room(5đ)
+#4. Cập nhật cột ToalStudent trong bảng class_room = Tổng số Student của mỗi class_room theo Id của class_room(5đ)
 update class_room cr
 set cr.total_student = (select count(*) from student s where s.class_room_id = cr.id);
-# SET SQL_SAFE_UPDATES=OFF;
-# 5. Tạo View v_getStudentInfo thực hiện lấy ra danh sách Student gồm: Id, Name, Email, Phone,  Gender, BirthDay, ClassName, MarksAvg, Trong đó cột MarksAvg hiển thị như sau:
+#SET SQL_SAFE_UPDATES = OFF;
+#5. Tạo View v_getStudentInfo thực hiện lấy ra danh sách Student gồm: Id, Name, Email, Phone,  Gender, BirthDay, ClassName, MarksAvg, Trong đó cột MarksAvg hiển thị như sau:
 # 0 < MarksAvg <=5 Loại Yếu
 # 5 < MarksAvg < 7.5 Loại Trung bình
 # 7.5 <= MarksAvg <= 8 Loại GIỏi
@@ -181,7 +184,7 @@ from student s
 group by s.id
 ;
 
-# 6. View v_getStudentMax hiển thị danh sách Sinh viên có điểm trung bình >= 7.5
+#6. View v_getStudentMax hiển thị danh sách Sinh viên có điểm trung bình >= 7.5
 create view v_getStudentMax as
 select s.name
 from student s
@@ -189,33 +192,47 @@ from student s
 group by s.id
 having avg(m.score) > 7.5;
 
-# 7. Tạo thủ tục thêm mới dữ liệu vào bảng class_room (5đ)
+#7. Tạo thủ tục thêm mới dữ liệu vào bảng class_room (5đ)
 delimiter //
 create procedure update_classroom(newname varchar(200),
                                   newstart date,
                                   newend date)
 begin
-insert into class_room (name, total_student, start_date, end_date)
-values (newname, null, newstart, newend);
-end //
+    insert into class_room (name, total_student, start_date, end_date)
+    values (newname, null, newstart, newend);
+end//
 
 # 8. Tạo thủ tục cập nhật dữ liệu trên bảng student (5đ)
 delimiter //
 create procedure updateStudent(newid int, newname varchar(150), newemail Varchar(100), newphone varchar(50),
                                newgender tinyint, newclassid int, newbirthday date)
 begin
-update student set name = newname where id = newid;
-update student set email = newemail where id = newemail;
-update student set phone = newname where id = newphone;
-update student set gender = newname where id = newgender;
-update student set class_room_id = newname where id = newclassid;
-update student set birthday = newname where id = newbirthday;
+    update student
+    set name = newname
+    where id = newid;
+    update student
+    set email = newemail
+    where id = newemail;
+    update student
+    set phone = newname
+    where id = newphone;
+    update student
+    set gender = newname
+    where id = newgender;
+    update student
+    set class_room_id = newname
+    where id = newclassid;
+    update student
+    set birthday = newname
+    where id = newbirthday;
 end //
 # 9. Tạo thủ tục xóa dữ liệu theo id trên bảng subject (5đ)
 delimiter //
 create procedure removeSubject(removeId int)
 begin
-delete from subject where id = removeId;
+    delete
+    from subject
+    where id = removeId;
 end //
 
 # 10.Tạo thủ tục getStudentPaginate lấy ra danh sách sinh viên có phân trang gồm:
@@ -228,5 +245,18 @@ create procedure getStudentPaginate(
     limitPaginate int
 )
 begin
-
-end //
+    declare
+        page int;
+    set page = (currentPage - 1) * limitPaginate;
+    select s.id,
+           s.name,
+           s.Email,
+           s.Phone,
+           s.Gender,
+           s.BirthDay,
+           cr.name
+    from student s
+             join class_room cr on s.class_room_id = cr.id
+    limit limitPaginate offset page;
+end//
+call getStudentPaginate();
